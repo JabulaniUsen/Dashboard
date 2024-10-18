@@ -28,7 +28,7 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <Box sx={{ display: 'flex' }} className={`transition-all duration-300 ${darkMode ? 'dark:bg-[#383544] dark:text-white' : 'bg-white text-black'}`}>
+    <Box sx={{ display: 'flex' }} className={` inter transition-all duration-300 ${darkMode ? 'dark:bg-[#383544] dark:text-white' : 'bg-white text-black'}`}>
       <CssBaseline />
       <Router>
         <Sidebar darkMode={darkMode} setDarkMode={setDarkMode} />
