@@ -24,7 +24,7 @@ const SummaryBox: React.FC<SummaryBoxProps> = ({
       <div className="flex items-center gap-1">
         <p className="text-[#334155] dark:text-white lg:text-2xl font-semibold">{value}</p>
         <span className={`flex items-center text-xs font-semibold ${percentageChangeColor}`}>
-          <Icon fontSize="" className={`text-xs ${iconColor}`} />
+          <Icon className={`text-xs ${iconColor}`} />
           <p>{percentageChange}%</p>
         </span>
       </div>
