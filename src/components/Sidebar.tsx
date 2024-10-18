@@ -69,36 +69,40 @@ const Sidebar: React.FC<SidebarProps> = ({ darkMode, setDarkMode }) => {
         >
           <Box>
             <div className="poppins flex items-center justify-center gap-2 text-xl font-bold mb-2 mt-3">
-              <img src={logo} alt="" />
+              <img src={logo} alt="Logo" />
               {isOpen && 'Eventify'}
             </div>
           </Box>
           <List>
             {tabs.map((tab, index) => (
-              <ListItem
-                button
+              <motion.div
                 key={tab.name}
-                component={motion.div}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.1 }}
-                sx={{
-                  justifyContent: isOpen ? 'initial' : 'center',
-                  px: 2,
-                }}
-                component={Link}
-                to={tab.path}
               >
-                <ListItemIcon sx={{ minWidth: 0, mr: isOpen ? 3 : 'auto' }}>{tab.icon}</ListItemIcon>
-                {isOpen && <ListItemText primary={tab.name} />}
-              </ListItem>
+                <ListItem
+                  // button
+                  component={Link}
+                  to={tab.path}
+                  sx={{
+                    justifyContent: isOpen ? 'initial' : 'center',
+                    px: 2,
+                  }}
+                >
+                  <ListItemIcon sx={{ minWidth: 0, mr: isOpen ? 3 : 'auto' }}>
+                    {tab.icon}
+                  </ListItemIcon>
+                  {isOpen && <ListItemText primary={tab.name} />}
+                </ListItem>
+              </motion.div>
             ))}
             <Box>
               <div className="flex flex-col">
                 <div onClick={() => setIsOpen(!isOpen)}>
                   {isOpen ? (
                     <div className="flex cursor-pointer items-center ml-4 gap-6 my-3">
-                      <KeyboardDoubleArrowLeft/>
+                      <KeyboardDoubleArrowLeft />
                       <p className="text-sm dark:text-gray-300">Collapse</p>
                     </div>
                   ) : (
@@ -110,7 +114,7 @@ const Sidebar: React.FC<SidebarProps> = ({ darkMode, setDarkMode }) => {
                 {isOpen && (
                   <div className="flex items-center gap-2">
                     <Switch checked={darkMode} onChange={() => setDarkMode(!darkMode)} />
-                    <p className="text-sm dark:text-gray-300">Darkmode</p>
+                    <p className="text-sm dark:text-gray-300">Dark Mode</p>
                   </div>
                 )}
               </div>
@@ -119,6 +123,7 @@ const Sidebar: React.FC<SidebarProps> = ({ darkMode, setDarkMode }) => {
         </Drawer>
       )}
 
+      {/* Bottom Navigation for Mobile */}
       {isMobile && (
         <BottomNavigation
           showLabels
