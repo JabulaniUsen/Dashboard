@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import RowModal from '../components/RowModal';
 import Data from '../data/data';
-import { NavigateBefore, NavigateNext, Search } from '@mui/icons-material';
-import { Button } from '@mui/material';
+import { ExpandLess, ExpandMore, FileDownloadDoneOutlined, NavigateBefore, NavigateNext, Search } from '@mui/icons-material';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable'; 
 
@@ -19,6 +18,7 @@ const Table: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [sortOrder, setSortOrder] = useState('asc');
   const [tableData, setTableData] = useState(Data());
+  const [expandedRows, setExpandedRows] = useState<number[]>([]);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
@@ -87,10 +87,18 @@ const Table: React.FC = () => {
     doc.save('table-data.pdf');
   };
 
+  const toggleRowExpansion = (rowId: number) => {
+    setExpandedRows((prevExpandedRows) =>
+      prevExpandedRows.includes(rowId)
+        ? prevExpandedRows.filter((id) => id !== rowId)
+        : [...prevExpandedRows, rowId]
+    );
+  };
+
   return (
     <div>
-      <div className="filters flex items-center gap-3 ">
-        <div className="border p-2 rounded dark:bg-[#484554] dark:text-white dark:border-none flex items-center gap-2">
+      <div className="filters flex items-center gap-3 lg:flex-row flex-col">
+        <div className="border p-2 rounded w-full lg:w-auto dark:bg-[#484554] dark:text-white dark:border-none flex items-center gap-2">
           <Search className='text-[#94A3B8]' />
           <input
             type="text"
@@ -101,7 +109,7 @@ const Table: React.FC = () => {
           />
         </div>
 
-        <div className="border p-2 rounded dark:bg-[#484554] dark:text-white dark:border-none">
+        <div className="border p-2 rounded w-full lg:w-auto dark:bg-[#484554] dark:text-white dark:border-none">
           <input
             type="date"
             name="date"
@@ -110,8 +118,8 @@ const Table: React.FC = () => {
             onChange={handleFilterChange}
           />
         </div>
-        <span className='p-2'>Total Items: {filteredData.length}</span>
-        <div className="border p-2 rounded dark:bg-[#484554] dark:text-white dark:border-none">
+        <span className='p-2 lg:block hidden'>Total Items: {filteredData.length}</span>
+        <div className="border p-2 rounded w-full lg:w-auto dark:bg-[#484554] dark:text-white dark:border-none">
           <select
             name="status"
             className='outline-none bg-transparent'
@@ -120,12 +128,12 @@ const Table: React.FC = () => {
           >
             <option value="">All Status</option>
             <option value="Complete">Complete</option>
-            <option value="inComplete">InComplete</option>
+            <option value="In Progress">In Progress</option>
           </select>
         </div>
 
 
-        <div className="border p-2 rounded dark:bg-[#484554] dark:text-white dark:border-none">
+        <div className="border p-2 rounded w-full lg:w-auto dark:bg-[#484554] dark:text-white dark:border-none">
           <select
             className='outline-none bg-transparent'
             value={sortOrder}
@@ -135,13 +143,57 @@ const Table: React.FC = () => {
             <option value="desc">Least Recent </option>
           </select>
         </div>
-        <Button variant="contained" onClick={exportToPDF}>
-          Export 
-        </Button>
+        <div className="border p-2 rounded w-full lg:w-auto dark:bg-[#484554] dark:text-white dark:border-none flex items-start gap-2">
+          <FileDownloadDoneOutlined />
+          <button 
+            className=""
+            onClick={exportToPDF}>
+            Export 
+          </button>
+        </div>
+      </div>
+
+      <div className="w-full lg:hidden">
+        {paginatedData.map((row) => (
+          <div key={row.id} className="border-b dark:border-gray-700">
+            <div
+              onClick={() => toggleRowExpansion(row.id)}
+              className="flex justify-between items-center p-4 cursor-pointer dark:bg-[#484554] bg-[#F1F5F9]"
+            >
+              <div>
+                <span className="font-semibold">{row.eventName}</span>
+              </div>
+              <div className="flex items-center">
+                <span
+                  onClick={() => handleRowClick(row)}
+                  className={`px-3 py-1 rounded-full ${row.status === 'Complete' ? 'bg-[#d1fae5] text-[#10b981]' : 'bg-[#DBEAFE] text-[#3B82F6]'} dark:bg-transparent dark:border dark:border-${row.status === 'Complete' ? '[#10b981]' : '[#3B82F6]'}`}
+                >
+                  {row.status}
+                </span>
+                {expandedRows.includes(row.id) ? <ExpandLess /> : <ExpandMore />}
+              </div>
+            </div>
+
+            {expandedRows.includes(row.id) && (
+              <div className="p-4 bg-gray-50 dark:bg-gray-400">
+                <div className="flex justify-between">
+                  <div>
+                    <span className="">Speaker: </span>{row.speaker}
+                  </div>
+                  <div>
+                    <span className="">Date: </span>{row.date}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
       </div>
 
 
-      <table className="table-auto w-full ">
+
+
+      <table className="table-auto w-full lg:table hidden">
         <thead className='dark:bg-[#6A6676] rounded bg-[#F1F5F9] dark:text-white'>
           <tr>
             <th className="px-6 py-5">Event Name</th>

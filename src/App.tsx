@@ -3,13 +3,15 @@ import { Box, CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import HomePage from './pages/HomePage';
-import EventsPage from './pages/EventsPage';
+// import EventsPage from './pages/EventsPage';
 import SpeakersPage from './pages/SpeakersPage';
 import ProfilePage from './pages/ProfilePage';
 import ReportsPage from './pages/ReportsPage';
 import NotificationsPage from './pages/NotificationsPage';
 import MessagesPage from './pages/MessagesPage';
 import HelpPage from './pages/HelpPage';
+import CalendarPage from './components/CalenderPage';
+import MobileNav from './components/MobileNav';
 
 const App: React.FC = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -32,6 +34,9 @@ const App: React.FC = () => {
       <CssBaseline />
       <Router>
         <Sidebar darkMode={darkMode} setDarkMode={setDarkMode} />
+        <div className="lg:hidden visible">
+          <MobileNav darkMode={darkMode} setDarkMode={setDarkMode} />
+        </div>
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
           {loading ? (
             <div className="p-3">
@@ -40,7 +45,7 @@ const App: React.FC = () => {
           ) : (
             <Routes>
               <Route path="/" element={<HomePage />} />
-              <Route path="/events" element={<EventsPage />} />
+              <Route path="/events" element={<CalendarPage />} />
               <Route path="/speakers" element={<SpeakersPage />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/reports" element={<ReportsPage />} />

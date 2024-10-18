@@ -1,5 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import avatars from '../../public/avatars.svg'
+import { ExitToAppRounded, X } from '@mui/icons-material';
 
 interface RowModalProps {
   row: any;
@@ -31,54 +33,55 @@ const RowModal: React.FC<RowModalProps> = ({ row, onClose, onEdit, onDelete, onM
       exit={{ opacity: 0 }}
     >
       <motion.div
-        className="bg-white rounded-lg shadow-lg p-8 w-96"
+        className="bg-white  flex flex-col gap-5 rounded-lg shadow-lg p-8 lg:w-[30rem] w-96"
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: 50, opacity: 0 }}
       >
-        <h2 className="text-xl font-bold mb-4">Edit Row</h2>
-        <div className="mb-2">
-          <p className="text-gray-700">
-            <strong>ID:</strong> {row.id}
+        <button className="absolute right-5 top-4" onClick={onClose}>
+          <ExitToAppRounded/>
+        </button>
+        <div className="head">
+          <h1 className='text-xl'>{row.eventName}</h1>
+          <h3 className='text-gray-400'>{row.date}</h3>
+        </div>
+
+        <p className="">Deep dive into the world of business</p>
+
+        <div className="">
+          <img src={avatars} alt="" />
+          <p className='text-gray-400'>
+            1 Guest Speaker: 
+            <span>{row.speaker}</span>
           </p>
-          <p className="text-gray-700">
-            <strong>Event Name:</strong> {row.name}
-          </p>
-          <p className="text-gray-700">
-            <strong>Status:</strong> {row.status}
-          </p>
-          <p className="text-gray-700">
-            <strong>Date:</strong> {row.date}
+          <p className='text-gray-400'>
+            300 Attendees
           </p>
         </div>
 
-        <div className="flex justify-between mt-6">
+        <div className="flex lg:flex-row flex-col justify-between mt-6">
           <button
             onClick={handleEdit}
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
+            className=" dark:text-white px-4 border py-2 rounded hover:bg-gray-200 transition-colors"
           >
             Edit
           </button>
-          <button
-            onClick={handleDelete}
-            className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition-colors"
-          >
-            Delete
-          </button>
-          <button
-            onClick={handleMarkComplete}
-            className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors"
-          >
-            Mark Complete
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={handleDelete}
+              className="bg-[#F43F5E] text-white px-4 py-2 rounded hover:bg-red-600 transition-colors"
+            >
+              Delete
+            </button>
+            <button
+              onClick={handleMarkComplete}
+              className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors"
+            >
+              Mark Complete
+            </button>
+          </div>
         </div>
 
-        <button
-          onClick={onClose}
-          className="mt-4 bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400 transition-colors w-full"
-        >
-          Close
-        </button>
       </motion.div>
     </motion.div>
   );

@@ -6,11 +6,11 @@ import Table from "../components/Table"
 
 const HomePage = () => {
   return (
-    <div className="">
+    <div className="lg:py-2 py-16">
       <header>
-      <h2 className="text-[22px]">Welcome <span>Jabulani!</span> Here's your summary</h2>
+      <h2 className="text-lg">Welcome!<span>👋</span> Here's your summary</h2>
       </header>
-      <div className="flex items-center gap-3 my-5">
+      <div className="flex items-center gap-3 my-5 flex-wrap">
         <SumaryBox
           title="Total Events"
           value="100,000"
@@ -50,9 +50,9 @@ const HomePage = () => {
 
       <div className="">
         <p className="text-lg front-semibold mb-2">Event Registrations per month</p>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid lg:grid-cols-2 grid-cols-1 gap-4">
       
-          <div className="chart rounded-md">
+          <div className="chart rounded-md lg:w-auto w-full">
             <ChartComponent/>
           </div>
           <div className="carosal overflow-hidden">

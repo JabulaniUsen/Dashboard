@@ -1,8 +1,11 @@
-import React from 'react'
+
+import Table from '../components/Table'
 
 function ReportsPage() {
   return (
-    <div>ReportsPage</div>
+    <div className='py-12'>
+      <Table/>
+    </div>
   )
 }
 
