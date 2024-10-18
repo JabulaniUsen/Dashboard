@@ -24,7 +24,7 @@ const Table: React.FC = () => {
     setSearchQuery(e.target.value);
   };
 
-  const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
     setFilters({ ...filters, [e.target.name]: e.target.value });
   };
 
@@ -56,7 +56,6 @@ const Table: React.FC = () => {
     closeModal();
   };
 
-
   const sortedData = [...tableData].sort((a, b) => {
     const dateA = new Date(a.date);
     const dateB = new Date(b.date);
@@ -66,7 +65,6 @@ const Table: React.FC = () => {
   const filteredData = sortedData.filter((row) => {
     return (
       (filters.status ? row.status === filters.status : true) &&
-      // (filters.name ? row.name.toLowerCase().includes(filters.name.toLowerCase()) : true) &&
       (filters.date ? row.date === filters.date : true) &&
       (searchQuery ? row.eventName.toLowerCase().includes(searchQuery.toLowerCase()) : true)
     );
@@ -74,7 +72,6 @@ const Table: React.FC = () => {
 
   const totalPages = Math.ceil(filteredData.length / pageSize);
   const paginatedData = filteredData.slice(currentPage * pageSize, currentPage * pageSize + pageSize);
-
 
   const exportToPDF = () => {
     const doc = new jsPDF();
@@ -132,12 +129,11 @@ const Table: React.FC = () => {
           </select>
         </div>
 
-
         <div className="border p-2 rounded w-full lg:w-auto dark:bg-[#484554] dark:text-white dark:border-none">
           <select
             className='outline-none bg-transparent'
             value={sortOrder}
-            onChange={(e) => setSortOrder(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSortOrder(e.target.value)}
           >
             <option value="asc"> Most Recent </option>
             <option value="desc">Least Recent </option>

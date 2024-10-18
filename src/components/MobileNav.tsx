@@ -65,7 +65,6 @@ const MobileNav: React.FC<MobileNavProps> = ({ darkMode, setDarkMode }) => {
             color="inherit"
             aria-label="menu"
             onClick={handleDrawerToggle}
-            className=''
           >
             <MenuIcon />
           </IconButton>
@@ -89,23 +88,25 @@ const MobileNav: React.FC<MobileNavProps> = ({ darkMode, setDarkMode }) => {
         <Box sx={{ marginTop: '60px' }}>
           <List>
             {tabs.map((tab, index) => (
-              <ListItem
-                button
+              <motion.div
                 key={tab.name}
-                component={motion.div}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.1 }}
-                component={Link}
-                to={tab.path}
-                onClick={handleDrawerToggle} // Close drawer when clicking a link
-                sx={{
-                  px: 2,
-                }}
               >
-                <ListItemIcon>{tab.icon}</ListItemIcon>
-                <ListItemText primary={tab.name} />
-              </ListItem>
+                <ListItem
+                //   button
+                  component={Link}
+                  to={tab.path}
+                  onClick={handleDrawerToggle} // Close drawer when clicking a link
+                  sx={{
+                    px: 2,
+                  }}
+                >
+                  <ListItemIcon>{tab.icon}</ListItemIcon>
+                  <ListItemText primary={tab.name} />
+                </ListItem>
+              </motion.div>
             ))}
           </List>
           <Box mt={2} px={2}>
