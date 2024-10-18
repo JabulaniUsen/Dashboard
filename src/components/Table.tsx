@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import RowModal from '../components/RowModal';
 import Data from '../data/data';
-import { ArrowDownward, ArrowUpward, NavigateBefore, NavigateNext, Search } from '@mui/icons-material';
+import { NavigateBefore, NavigateNext, Search } from '@mui/icons-material';
 import { Button } from '@mui/material';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable'; 
@@ -56,7 +56,7 @@ const Table: React.FC = () => {
     closeModal();
   };
 
-  // Function to handle sorting by date
+
   const sortedData = [...tableData].sort((a, b) => {
     const dateA = new Date(a.date);
     const dateB = new Date(b.date);
@@ -75,7 +75,7 @@ const Table: React.FC = () => {
   const totalPages = Math.ceil(filteredData.length / pageSize);
   const paginatedData = filteredData.slice(currentPage * pageSize, currentPage * pageSize + pageSize);
 
-  // Function to export table as PDF
+
   const exportToPDF = () => {
     const doc = new jsPDF();
     doc.setFontSize(20);
