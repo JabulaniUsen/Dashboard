@@ -33,7 +33,7 @@ const RowModal: React.FC<RowModalProps> = ({ row, onClose, onEdit, onDelete, onM
       exit={{ opacity: 0 }}
     >
       <motion.div
-        className="bg-white  flex flex-col gap-5 rounded-lg shadow-lg p-8 lg:w-[30rem] w-96"
+        className="bg-white flex flex-col gap-5 rounded-lg shadow-lg lg:w-[30rem] dark:bg-[#484554] w-96"
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: 50, opacity: 0 }}
@@ -41,14 +41,14 @@ const RowModal: React.FC<RowModalProps> = ({ row, onClose, onEdit, onDelete, onM
         <button className="absolute right-5 top-4" onClick={onClose}>
           <ExitToAppRounded/>
         </button>
-        <div className="head">
+        <div className="head px-8 pt-8">
           <h1 className='text-xl'>{row.eventName}</h1>
           <h3 className='text-gray-400'>{row.date}</h3>
         </div>
 
-        <p className="">Deep dive into the world of business</p>
+        <p className=" px-8">Deep dive into the world of business</p>
 
-        <div className="">
+        <div className="px-8">
           <img src={avatars} alt="" />
           <p className='text-gray-400'>
             1 Guest Speaker: 
@@ -59,14 +59,14 @@ const RowModal: React.FC<RowModalProps> = ({ row, onClose, onEdit, onDelete, onM
           </p>
         </div>
 
-        <div className="flex lg:flex-row flex-col justify-between mt-6">
+        <div className="flex lg:flex-row p-8 flex-col justify-between mt-6 dark:bg-[#ADA9BB]">
           <button
             onClick={handleEdit}
-            className=" dark:text-white px-4 border py-2 rounded hover:bg-gray-200 transition-colors"
+            className="  dark:bg-white dark:text-black px-4 border py-2 rounded hover:bg-gray-200 transition-colors"
           >
             Edit
           </button>
-          <div className="flex items-center gap-3">
+          <div className="flex lg:flex-row flex-col lg:items-center lg:mt-0 mt-4 gap-3">
             <button
               onClick={handleDelete}
               className="bg-[#F43F5E] text-white px-4 py-2 rounded hover:bg-red-600 transition-colors"
