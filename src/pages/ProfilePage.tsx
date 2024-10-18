@@ -1,168 +1,44 @@
-import React, { useState, useEffect } from 'react';
-import { Box, TextField, Avatar, Button, Typography } from '@mui/material';
-import { motion } from 'framer-motion';
-import { UploadFile } from '@mui/icons-material';
+import React from 'react';
+import { LinkedIn, Twitter, Facebook } from '@mui/icons-material';
 
 const ProfilePage: React.FC = () => {
-  const [profile, setProfile] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    address: '',
-    image: ''
-  });
-  const [darkMode, setDarkMode] = useState(false);
-
-  // Load data from local storage when the component mounts
-  useEffect(() => {
-    const savedProfile = localStorage.getItem('profile');
-    const savedDarkMode = localStorage.getItem('darkMode');
-    if (savedProfile) {
-      setProfile(JSON.parse(savedProfile));
-    }
-    if (savedDarkMode) {
-      setDarkMode(JSON.parse(savedDarkMode));
-    }
-  }, []);
-
-  // Save profile to local storage whenever profile state changes
-  useEffect(() => {
-    localStorage.setItem('profile', JSON.stringify(profile));
-    localStorage.setItem('darkMode', JSON.stringify(darkMode));
-  }, [profile, darkMode]);
-
-  // Handle form field changes
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setProfile((prevProfile) => ({
-      ...prevProfile,
-      [name]: value
-    }));
-  };
-
-  // Handle image upload
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfile((prevProfile) => ({
-          ...prevProfile,
-          image: reader.result as string
-        }));
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  // Handle dark mode toggle
-  const handleDarkModeToggle = () => {
-    setDarkMode((prevMode) => !prevMode);
-  };
-
   return (
-    <Box
-      className={`min-h-screen flex flex-col items-center justify-center p-8 bg-white dark:bg-[#333] transition-colors duration-300`}
-    >
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="p-8 bg-white dark:bg-[#484554] shadow-lg rounded-lg max-w-3xl w-full"
-      >
-        {/* Title */}
-        <Typography variant="h4" className="text-center font-bold mb-8 dark:text-white">
-          Profile Dashboard
-        </Typography>
-
-        {/* Avatar and Image Upload */}
-        <div className="flex justify-center items-center mb-6">
-          <Avatar
-            src={profile.image || 'https://via.placeholder.com/150'}
-            sx={{ width: 120, height: 120 }}
-            className="dark:bg-gray-400"
-          />
-          <Button
-            variant="contained"
-            component="label"
-            className="ml-4 bg-blue-500 dark:bg-blue-600 text-white"
-          >
-            <UploadFile/>
-            <input type="file" hidden onChange={handleImageUpload} />
-          </Button>
+    <div className="max-w-4xl mx-auto p-6 lg:h-screen h-full">
+      <div className="bg-white dark:bg-[#484554] rounded-lg shadow-lg p-6 flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-8">
+        <img
+          src="https://via.placeholder.com/200"
+          alt="Usenobong Etokakpan"
+          className="w-40 h-40 rounded-full object-cover shadow-lg"
+        />
+        <div className="text-center md:text-left space-y-4">
+          <h1 className="text-3xl font-semibold dark:text-white">Usenobong Etokakpan</h1>
+          <p className="text-gray-700 dark:text-gray-300">
+            <strong>Bio:</strong> I am a professional frontend developer with over 4 years of experience in building
+            responsive and scalable web applications. I specialize in JavaScript frameworks like React.js and Next.js, as
+            well as state management using tools like Redux and Context API. I have strong experience in HTML5, CSS3, and
+            modern UI/UX design principles. In addition to my technical expertise, I collaborate closely with backend teams
+            to integrate RESTful APIs and GraphQL for full-stack development. My passion for creating smooth user
+            experiences drives me to continuously explore new frontend technologies and practices.
+          </p>
+          <div className="text-gray-500 dark:text-gray-300">
+            <p><strong>Address:</strong> 1234 Developer Street, Code City, Techland</p>
+            <a href='mailto:jabulanietokakpan@gmail.com'><strong>Email:</strong> jabulanietokakpan@gmail.com</a>
+            <p><strong>Phone:</strong> +123 456 7890</p>
+          </div>
+          <div className="flex justify-center md:justify-start space-x-4 mt-4">
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+              <LinkedIn className="text-blue-600 dark:text-blue-300 hover:text-blue-800 dark:hover:text-blue-400" />
+            </a>
+            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+              <Twitter className="text-blue-500 dark:text-blue-300 hover:text-blue-700 dark:hover:text-blue-400" />
+            </a>
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+              <Facebook className="text-blue-700 dark:text-blue-300 hover:text-blue-900 dark:hover:text-blue-400" />
+            </a>
+          </div>
         </div>
-
-        {/* Profile Form */}
-        <Box
-          component="form"
-          className="grid grid-cols-1 md:grid-cols-2 gap-6"
-        >
-          <TextField
-            label="Name"
-            name="name"
-            value={profile.name}
-            onChange={handleInputChange}
-            fullWidth
-            InputLabelProps={{
-              className: 'dark:text-gray-300'
-            }}
-            InputProps={{
-              className: 'dark:text-gray-200 dark:bg-gray-700'
-            }}
-          />
-          <TextField
-            label="Email"
-            name="email"
-            value={profile.email}
-            onChange={handleInputChange}
-            fullWidth
-            InputLabelProps={{
-              className: 'dark:text-gray-300'
-            }}
-            InputProps={{
-              className: 'dark:text-gray-200 dark:bg-gray-700'
-            }}
-          />
-          <TextField
-            label="Phone"
-            name="phone"
-            value={profile.phone}
-            onChange={handleInputChange}
-            fullWidth
-            InputLabelProps={{
-              className: 'dark:text-gray-300'
-            }}
-            InputProps={{
-              className: 'dark:text-gray-200 dark:bg-gray-700'
-            }}
-          />
-          <TextField
-            label="Address"
-            name="address"
-            value={profile.address}
-            onChange={handleInputChange}
-            fullWidth
-            InputLabelProps={{
-              className: 'dark:text-gray-300'
-            }}
-            InputProps={{
-              className: 'dark:text-gray-200 dark:bg-gray-700'
-            }}
-          />
-        </Box>
-
-        {/* Save Button */}
-        <div className="flex justify-end mt-6">
-          <Button
-            variant="contained"
-            className="bg-blue-600 dark:bg-blue-500 text-white"
-            onClick={() => alert('Profile Saved!')}
-          >
-            Save Changes
-          </Button>
-        </div>
-
-      </motion.div>
-    </Box>
+      </div>
+    </div>
   );
 };
 
