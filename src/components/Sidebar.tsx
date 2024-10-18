@@ -1,21 +1,27 @@
-import React, { useState } from 'react';
-import { Box, IconButton, List, ListItem, ListItemIcon, ListItemText, Drawer } from '@mui/material';
+import React from 'react';
+import { Box, IconButton, List, ListItem, ListItemIcon, ListItemText, Drawer, Switch } from '@mui/material';
 import { Home, AccountCircle, Notifications, Help, Menu, CalendarMonth, Speaker, Book, ChatBubble } from '@mui/icons-material';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 const tabs = [
-  { name: 'Home', icon: <Home /> },
-  { name: 'Events', icon: <CalendarMonth /> },
-  { name: 'Speakers', icon: <Speaker /> },
-  { name: 'Profile', icon: <AccountCircle /> },
-  { name: 'Reports', icon: <Book /> },
-  { name: 'Notifications', icon: <Notifications /> },
-  { name: 'Messages', icon: <ChatBubble /> },
-  { name: 'Help', icon: <Help /> },
+  { name: 'Home', icon: <Home />, path: '/' },
+  { name: 'Events', icon: <CalendarMonth />, path: '/events' },
+  { name: 'Speakers', icon: <Speaker />, path: '/speakers' },
+  { name: 'Profile', icon: <AccountCircle />, path: '/profile' },
+  { name: 'Reports', icon: <Book />, path: '/reports' },
+  { name: 'Notifications', icon: <Notifications />, path: '/notifications' },
+  { name: 'Messages', icon: <ChatBubble />, path: '/messages' },
+  { name: 'Help', icon: <Help />, path: '/help' },
 ];
 
-const Sidebar: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(true);
+interface SidebarProps {
+  darkMode: boolean;
+  setDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ darkMode, setDarkMode }) => {
+  const [isOpen, setIsOpen] = React.useState(true);
 
   return (
     <Drawer
@@ -27,6 +33,8 @@ const Sidebar: React.FC = () => {
           width: isOpen ? 240 : 72,
           transition: 'width 0.3s',
           overflowX: 'hidden',
+          backgroundColor: darkMode ? '#484554' : '#fff',
+          color: darkMode ? '#fff' : '#000',
         },
       }}
     >
@@ -34,10 +42,12 @@ const Sidebar: React.FC = () => {
         <IconButton onClick={() => setIsOpen(!isOpen)}>
           <Menu />
         </IconButton>
+        <Switch checked={darkMode} onChange={() => setDarkMode(!darkMode)} />
       </Box>
       <List>
         {tabs.map((tab, index) => (
           <ListItem
+            button
             key={tab.name}
             component={motion.div}
             initial={{ opacity: 0, x: -20 }}
@@ -47,6 +57,8 @@ const Sidebar: React.FC = () => {
               justifyContent: isOpen ? 'initial' : 'center',
               px: 2,
             }}
+            component={Link}
+            to={tab.path}
           >
             <ListItemIcon sx={{ minWidth: 0, mr: isOpen ? 3 : 'auto' }}>{tab.icon}</ListItemIcon>
             {isOpen && <ListItemText primary={tab.name} />}

@@ -1,48 +1,57 @@
 import React, { useState, useEffect } from 'react';
-import { Box, CssBaseline, ThemeProvider, createTheme, useMediaQuery, IconButton, Switch, AppBar, Toolbar, Typography, Skeleton } from '@mui/material';
-import { Home, Settings, Dashboard, BarChart, AccountCircle, Mail, Notifications, Help, Info } from '@mui/icons-material';
-import { AnimatePresence, motion } from 'framer-motion';
+import { Box, CssBaseline, ThemeProvider, createTheme } from '@mui/material';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
+import HomePage from './pages/HomePage';
+import EventsPage from './pages/EventsPage';
+import SpeakersPage from './pages/SpeakersPage';
+import ProfilePage from './pages/ProfilePage';
+import ReportsPage from './pages/ReportsPage';
+import NotificationsPage from './pages/NotificationsPage';
+import MessagesPage from './pages/MessagesPage';
+import HelpPage from './pages/HelpPage';
 
 const App: React.FC = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const theme = createTheme({
-    palette: {
-      mode: darkMode ? 'dark' : 'light',
-    },
-  });
+  useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+  }, [darkMode]);
 
   useEffect(() => {
-    setTimeout(() => setLoading(false), 2000); // Simulate 2-second loading delay
+    setTimeout(() => setLoading(false), 2000);
   }, []);
 
   return (
-    <ThemeProvider theme={theme}>
+    <Box sx={{ display: 'flex' }} className={`transition-all duration-300 ${darkMode ? 'dark:bg-[#383544] dark:text-white' : 'bg-white text-black'}`}>
       <CssBaseline />
-      <Box sx={{ display: 'flex' }}>
-        <Sidebar />
+      <Router>
+        <Sidebar darkMode={darkMode} setDarkMode={setDarkMode} />
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-          <AppBar position="fixed">
-            <Toolbar>
-              <Typography variant="h6" noWrap sx={{ flexGrow: 1 }}>
-                Dashboard
-              </Typography>
-              <Switch checked={darkMode} onChange={() => setDarkMode(!darkMode)} />
-            </Toolbar>
-          </AppBar>
-          <Toolbar />
-          <Box>
-            {loading ? (
-              <Skeleton variant="rectangular" width="100%" height={400} />
-            ) : (
-              <Typography variant="h4">Welcome to the Dashboard!</Typography>
-            )}
-          </Box>
+          {loading ? (
+            <div className="p-3">
+              <div className="bg-gray-300 dark:bg-gray-700 w-full h-screen animate-pulse"></div>
+            </div>
+          ) : (
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/events" element={<EventsPage />} />
+              <Route path="/speakers" element={<SpeakersPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/reports" element={<ReportsPage />} />
+              <Route path="/notifications" element={<NotificationsPage />} />
+              <Route path="/messages" element={<MessagesPage />} />
+              <Route path="/help" element={<HelpPage />} />
+            </Routes>
+          )}
         </Box>
-      </Box>
-    </ThemeProvider>
+      </Router>
+    </Box>
   );
 };
 
